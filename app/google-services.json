@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "274329793380",
+    "project_id": "easysolution-762ab",
+    "storage_bucket": "easysolution-762ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274329793380:android:4c01cc248b99ea7ec1c071",
+        "android_client_info": {
+          "package_name": "com.example.easysolution"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgvMl4vyiUXhzq5vQee8guqUJ_Autmxg4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

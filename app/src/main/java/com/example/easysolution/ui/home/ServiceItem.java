@@ -16,5 +16,14 @@ public class ServiceItem {
     public String getLabel() {
         return label;
     }
+    // Getter for service icon
+    public int getServiceIcon() {
+        return icon;
+    }
+
+    // Getter for service name
+    public String getServiceName() {
+        return label;
+    }
 }
 
