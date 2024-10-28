@@ -1,4 +1,6 @@
 package com.example.easysolution.ui.home;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,10 +63,11 @@ public class ServiceProvidersFragment extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             // Create a ServiceProvider object with the additional fields
                             ServiceProvider provider = new ServiceProvider(
+                                    document.getId(),
                                     document.getString("name"),
                                     document.getString("rating"),
                                     document.getString("location"),  // Fetch location
-                                    document.getString("contact"),
+                                    document.getString("phone"),
                                     document.getString("serviceType"),
                                     document.getString("photoUrl")   // Fetch photoUrl
                             );
@@ -93,6 +96,8 @@ public class ServiceProvidersFragment extends Fragment {
             }
         });
     }
+
+
 
 
 }

@@ -1,0 +1,5 @@
+<!-- res/drawable/circular_image_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@android:color/white" /> <!-- Background color if needed -->
+    <corners android:radius="100dp" /> <!-- Rounded corners -->" /> <!-- Makes the shape circular -->
+</shape>

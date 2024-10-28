@@ -6,61 +6,112 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/user_info_text_view"
+        android:id="@+id/textViewUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="User Info"
-        android:textSize="20sp"
-        android:layout_marginBottom="16dp"/>
+        android:text="Welcome!"
+        android:textSize="30sp"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"/>
 
     <!-- Buttons for actions -->
     <Button
         android:id="@+id/login_button"
         android:layout_width="match_parent"
-        android:text="Login"
         android:layout_height="60dp"
-        android:textAlignment="textStart"
+        android:shadowColor="@color/cardview_dark_background"
+        android:text="Login"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:background="@drawable/rounded_background"
+        android:layout_marginBottom="12dp"
+        android:layout_gravity="center_horizontal"
+        android:elevation="8dp"
+        android:outlineAmbientShadowColor="@color/cardview_dark_background"
+        android:backgroundTint="@color/black"
+
         />
 
     <Button
         android:id="@+id/register_customer_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:textAlignment="textStart"
-        android:text="Register as Customer"/>
+
+        android:text="Register as Customer"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:background="@drawable/rounded_background"
+        android:layout_marginBottom="12dp"
+        android:layout_gravity="center_horizontal"
+        android:elevation="8dp"
+        android:outlineAmbientShadowColor="@color/cardview_dark_background"
+        android:backgroundTint="@color/black"/>
 
     <Button
         android:id="@+id/edit_profile_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:textAlignment="textStart"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:background="@drawable/rounded_background"
+        android:layout_marginBottom="12dp"
+        android:layout_gravity="center_horizontal"
+        android:elevation="8dp"
+        android:outlineAmbientShadowColor="@color/cardview_dark_background"
+        android:backgroundTint="@color/black"
         android:text="Edit Profile"/>
 
     <Button
         android:id="@+id/register_service_provider_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:textAlignment="textStart"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:background="@drawable/rounded_background"
+        android:layout_marginBottom="12dp"
+        android:layout_gravity="center_horizontal"
+        android:elevation="8dp"
+        android:outlineAmbientShadowColor="@color/cardview_dark_background"
+        android:backgroundTint="@color/black"
         android:text="Register as Service Provider"/>
 
     <Button
         android:id="@+id/query_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:textAlignment="textStart"
-        android:text="Query"/>
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:background="@drawable/rounded_background"
+        android:layout_marginBottom="12dp"
+        android:layout_gravity="center_horizontal"
+        android:elevation="8dp"
+        android:outlineAmbientShadowColor="@color/cardview_dark_background"
+        android:backgroundTint="@color/black"        android:text="Query"/>
 
     <Button
         android:id="@+id/report_service_provider_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:textAlignment="textStart"
-        android:text="Report a Service Provider"/>
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:background="@drawable/rounded_background"
+        android:layout_marginBottom="12dp"
+        android:layout_gravity="center_horizontal"
+        android:elevation="8dp"
+        android:outlineAmbientShadowColor="@color/cardview_dark_background"
+        android:backgroundTint="@color/black"        android:text="Report a Service Provider"/>
 
     <Button
         android:id="@+id/logout_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:textAlignment="textStart"
-        android:text="Log Out"/>
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:background="@drawable/rounded_background"
+        android:layout_marginBottom="12dp"
+        android:layout_gravity="center_horizontal"
+        android:elevation="8dp"
+        android:outlineAmbientShadowColor="@color/cardview_dark_background"
+        android:backgroundTint="@color/black"        android:text="Log Out"/>
 </LinearLayout>

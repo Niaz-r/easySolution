@@ -1,5 +1,6 @@
 package com.example.easysolution.ui.home;
 public class ServiceProvider {
+    private String id;
     private String name;
     private String rating;
     private String location;  // New field
@@ -7,8 +8,12 @@ public class ServiceProvider {
     private String serviceType;
     private String photoUrl;  // New field
 
+    public ServiceProvider() {
+    }
     // Constructor
-    public ServiceProvider(String name, String rating, String location, String contact, String serviceType, String photoUrl) {
+    public ServiceProvider(String id,String name, String rating, String location, String contact, String serviceType, String photoUrl) {
+
+        this.id = id;
         this.name = name;
         this.rating = rating;
         this.location = location;
@@ -18,6 +23,10 @@ public class ServiceProvider {
     }
 
     // Getters
+    public String getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -42,4 +51,5 @@ public class ServiceProvider {
         return photoUrl;
     }
 }
+
 

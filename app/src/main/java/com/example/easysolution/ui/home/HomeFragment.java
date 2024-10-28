@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -28,9 +30,17 @@ import com.example.easysolution.R;
 import com.example.easysolution.databinding.ActivityMainBinding;
 import com.example.easysolution.databinding.FragmentHomeBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,12 +54,20 @@ public class HomeFragment extends Fragment {
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
     private FusedLocationProviderClient fusedLocationClient;
-    private TextView locationTextView;  // A TextView to display the location
+    private TextView locationTextView;
+
+    private RecyclerView popularProvidersRecyclerView;
+    private PopularServiceProviderAdapter adapter;
+    private List<ServiceProvider> popularProviders;
+    private FirebaseFirestore db;
 
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
 
 
 
@@ -130,8 +148,27 @@ public class HomeFragment extends Fragment {
         });
         servicesGrid.setAdapter(serviceAdapter);
 
+
+
+
+
+
+
+
+        db = FirebaseFirestore.getInstance();
+        popularProviders = new ArrayList<>();
+        popularProvidersRecyclerView = view.findViewById(R.id.popularProvidersRecyclerView);
+        adapter = new PopularServiceProviderAdapter(getContext(), popularProviders);
+        popularProvidersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        popularProvidersRecyclerView.setAdapter(adapter);
+
+        loadPopularProviders();
+
+
         return root;
     }
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -147,36 +184,63 @@ public class HomeFragment extends Fragment {
 
     private void getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(requireActivity(), new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                double latitude = location.getLatitude();
-                                double longitude = location.getLongitude();
-
-                                // Convert latitude and longitude to an address using Geocoder
-                                Geocoder geocoder = new Geocoder(requireContext(), Locale.getDefault());
-                                try {
-                                    List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                                    if (addresses != null && !addresses.isEmpty()) {
-                                        Address address = addresses.get(0);
-                                        String addressText = address.getAddressLine(0);
-                                        locationTextView.setText("Location: " + addressText);
-                                    } else {
-                                        locationTextView.setText("Address not available.");
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    locationTextView.setText("Failed to get address.");
-                                }
-                            } else {
-                                locationTextView.setText("Location not available.");
-                            }
+            // Request location updates
+            fusedLocationClient.requestLocationUpdates(LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                    .setInterval(10000), new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult locationResult) {
+                    if (locationResult != null) {
+                        Location location = locationResult.getLastLocation();
+                        if (location != null) {
+                            double latitude = location.getLatitude();
+                            double longitude = location.getLongitude();
+                            updateLocationUI(latitude, longitude);
+                        } else {
+                            locationTextView.setText("Location not available.");
                         }
-                    });
+                    }
+                }
+            }, null);
         }
     }
+
+    private void updateLocationUI(double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(requireContext(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address address = addresses.get(0);
+                String addressText = address.getAddressLine(0);
+                locationTextView.setText("Location: " + addressText);
+            } else {
+                locationTextView.setText("Address not available.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            locationTextView.setText("Failed to get address.");
+        }
+    }
+
+
+    private void loadPopularProviders() {
+        db.collection("serviceProviders")
+                .whereEqualTo("popular", true) // Assuming you have a "popular" field
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            ServiceProvider provider = document.toObject(ServiceProvider.class);
+                            popularProviders.add(provider);
+                        }
+                        adapter.notifyDataSetChanged(); // Notify the adapter to refresh the RecyclerView
+                    }
+                });
+    }
+
+
+
+
 
 
     @Override

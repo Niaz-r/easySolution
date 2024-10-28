@@ -11,10 +11,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.easysolution.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -24,7 +27,7 @@ public class RegisterCustomerFragment extends Fragment {
 
     private FirebaseAuth auth; // FirebaseAuth instance
     private FirebaseFirestore db; // Firestore instance
-    private EditText editTextName, editTextEmail, editTextPassword, editTextPhone, editTextAddress;
+    private EditText editTextName, editTextEmail, editTextPassword, editTextPhone, editTextAddress, editTextDisplayName;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class RegisterCustomerFragment extends Fragment {
         editTextAddress = view.findViewById(R.id.editTextAddress);
         Button buttonRegister = view.findViewById(R.id.buttonRegister);
         TextView textViewLogin = view.findViewById(R.id.textViewLogin);
+        editTextDisplayName = view.findViewById(R.id.editTextDisplayName); // Add this line
 
         // Register button click listener
         buttonRegister.setOnClickListener(v -> registerUser());
@@ -50,6 +54,8 @@ public class RegisterCustomerFragment extends Fragment {
         // Navigate to login on text click
         textViewLogin.setOnClickListener(v -> {
             // TODO: Navigate to Login Fragment
+            // Navigate to Login Fragment
+            Navigation.findNavController(v).navigate(R.id.navigation_login);
         });
 
         return view;
@@ -61,6 +67,8 @@ public class RegisterCustomerFragment extends Fragment {
         String name = editTextName.getText().toString().trim();
         String phone = editTextPhone.getText().toString().trim();
         String address = editTextAddress.getText().toString().trim();
+        String displayName = editTextDisplayName.getText().toString().trim(); // Get display name
+
 
         if (email.isEmpty() || password.isEmpty() || name.isEmpty() || phone.isEmpty() || address.isEmpty()) {
             Toast.makeText(getContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
@@ -76,6 +84,9 @@ public class RegisterCustomerFragment extends Fragment {
                         if (user != null) {
                             // Store additional user info in Firestore
                             saveUserData(user.getUid(), name, phone, address);
+                            user.updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(displayName).build());
+                        } else {
+                            Toast.makeText(getContext(), "User is null", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         // Registration failed
@@ -96,6 +107,8 @@ public class RegisterCustomerFragment extends Fragment {
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(getContext(), "User data saved successfully", Toast.LENGTH_SHORT).show();
                     // TODO: Navigate back to the main dashboard
+                    // Navigate back to the main dashboard
+                    Navigation.findNavController(getView()).navigate(R.id.navigation_dashboard);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getContext(), "Failed to save user data: " + e.getMessage(), Toast.LENGTH_SHORT).show();

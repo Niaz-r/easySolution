@@ -36,11 +36,40 @@
         android:id="@+id/serviceProvidersFragment"
         android:name="com.example.easysolution.ui.home.ServiceProvidersFragment"
         android:label="Service Providers"
-        tools:layout="@layout/fragment_service_providers" />
+        tools:layout="@layout/fragment_service_providers"
+   />
+
+
+
 
     <fragment
         android:id="@+id/registerCustomerFragment"
         android:name="com.example.easysolution.ui.dashboard.RegisterCustomerFragment"
-        android:label="Register Customer" />
+        android:label="Register Customer"
+        tools:layout="@layout/fragment_register_customer"/>
+
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.example.easysolution.ui.dashboard.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login" />
+
+
+
+    <fragment
+        android:id="@+id/navigation_register_service_provider"
+        android:name="com.example.easysolution.ui.dashboard.RegisterServiceProviderFragment"
+        android:label="Register Service Provider"
+        tools:layout="@layout/fragment_register_service_provider" />
+
+  <fragment
+android:id="@+id/providerDetailFragment"
+android:name="com.example.easysolution.ui.home.ProviderDetailFragment"
+android:label="Provider Details"
+      tools:layout="@layout/fragment_provider_detail"/>
+
+
+
+
 
 </navigation>

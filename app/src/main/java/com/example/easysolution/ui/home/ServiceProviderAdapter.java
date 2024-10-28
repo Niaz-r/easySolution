@@ -1,4 +1,5 @@
 package com.example.easysolution.ui.home;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -6,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -30,17 +32,35 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
 
     @Override
     public void onBindViewHolder(@NonNull ProviderViewHolder holder, int position) {
+
         ServiceProvider provider = providerList.get(position);
         holder.nameTextView.setText(provider.getName());
         holder.ratingTextView.setText("Rating: " + provider.getRating());
         holder.locationTextView.setText("Location: " + provider.getLocation());  // Display location
         holder.contactTextView.setText("Contact: " + provider.getContact());
 
+        // Set click listener for the provider item
+
         // Load the provider's photo using Glide
         Glide.with(holder.itemView.getContext())
                 .load(provider.getPhotoUrl())  // Load the photoUrl
                 .placeholder(R.drawable.placeholder_image)  // Placeholder image
                 .into(holder.photoImageView);  // Set the image into the ImageView
+
+        holder.itemView.setOnClickListener(v -> {
+            // Navigate to ProviderDetailFragment with provider details
+            Bundle bundle = new Bundle();
+            bundle.putString("providerId", provider.getId());
+            bundle.putString("name", provider.getName());
+          //  bundle.putString("email", provider.getEmail());
+            bundle.putString("phone", provider.getContact());
+            bundle.putString("location", provider.getLocation());
+            bundle.putString("serviceType", provider.getServiceType());
+            bundle.putString("photoUrl", provider.getPhotoUrl());
+
+            Navigation.findNavController(v).navigate(R.id.providerDetailFragment, bundle);
+        });
+
     }
 
     @Override

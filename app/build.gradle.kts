@@ -43,8 +43,10 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.5.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation(libs.firebase.auth)
+    implementation(libs.play.services.location)
 
-
+    implementation(libs.firebase.storage)
+    implementation(libs.playservices.location)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
@@ -55,6 +57,7 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
     implementation(libs.play.services.location)
+    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
